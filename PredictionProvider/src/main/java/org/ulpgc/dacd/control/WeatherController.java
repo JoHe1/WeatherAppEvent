@@ -1,9 +1,8 @@
 package org.ulpgc.dacd.control;
 
+import org.ulpgc.dacd.exceptions.ConnectionException;
+import org.ulpgc.dacd.exceptions.URLInvalidException;
 import org.ulpgc.dacd.model.Weather;
-
-import javax.jms.JMSException;
-import java.io.IOException;
 import java.util.List;
 
 import static org.ulpgc.dacd.control.Main.mapIslandLocation;
@@ -19,9 +18,13 @@ public class WeatherController {
 
     public void execute() {
         mapIslandLocation.forEach((island,location) -> {
-            List<Weather> weathers = weatherProvider.get(location);
-            for (Weather weather:weathers) {
-                weatherStore.save(weather);
+            try {
+                List<Weather> weathers = weatherProvider.get(location);
+                for (Weather weather : weathers) {
+                    weatherStore.save(weather);
+                }
+            } catch (URLInvalidException | ConnectionException e) {
+                throw new RuntimeException(e);
             }
         });
     }

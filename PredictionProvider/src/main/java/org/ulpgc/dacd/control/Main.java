@@ -26,6 +26,7 @@ public class Main {
         }
     private static void periodicTask(WeatherController weatherController) {
 
+            /*
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         Calendar now = Calendar.getInstance();
         Calendar nextRun = Calendar.getInstance();
@@ -38,6 +39,8 @@ public class Main {
         }
         long initialDelay = nextRun.getTimeInMillis() - System.currentTimeMillis();
         scheduler.scheduleAtFixedRate(new Task(weatherController), initialDelay, 6 * 60 * 60 * 1000, TimeUnit.MILLISECONDS);
+        */
+        new Task(weatherController).run();
     }
 
     private static void loadStaticLocations(String file) {

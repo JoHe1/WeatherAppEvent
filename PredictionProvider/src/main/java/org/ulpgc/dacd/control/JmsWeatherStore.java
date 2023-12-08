@@ -15,7 +15,7 @@ public class JmsWeatherStore implements WeatherStore{
 
 
     @Override
-    public javax.jms.Connection connection() {
+    public Connection connection() {
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
         javax.jms.Connection connection = null;
         try {
@@ -54,7 +54,7 @@ public class JmsWeatherStore implements WeatherStore{
                 .createTextMessage(weatherJson);
 
         producer.send(message);
-
+        // TODO BORRAR AL FINAL
         System.out.println("JCG printing@@ '" + message.getText() + "'");
         close(connection);
         }catch (JMSException e) {
