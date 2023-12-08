@@ -3,12 +3,10 @@ package org.ulpgc.dacd.control;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.ulpgc.dacd.exceptions.ConnectionException;
 import org.ulpgc.dacd.exceptions.JmsExceptionConection;
 import org.ulpgc.dacd.model.Weather;
 
 import javax.jms.*;
-import java.sql.SQLException;
 import java.time.Instant;
 
 public class JmsWeatherStore implements WeatherStore{
