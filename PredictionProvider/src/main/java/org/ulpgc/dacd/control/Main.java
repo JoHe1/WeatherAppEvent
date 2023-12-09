@@ -28,8 +28,8 @@ public class Main {
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         Calendar now = Calendar.getInstance();
         Calendar nextRun = Calendar.getInstance();
-        nextRun.set(Calendar.HOUR_OF_DAY, 17);
-        nextRun.set(Calendar.MINUTE, 11);
+        nextRun.set(Calendar.HOUR_OF_DAY, 12);
+        nextRun.set(Calendar.MINUTE, 0);
         nextRun.set(Calendar.SECOND, 0);
         nextRun.set(Calendar.MILLISECOND, 0);
         if (now.after(nextRun)) {
