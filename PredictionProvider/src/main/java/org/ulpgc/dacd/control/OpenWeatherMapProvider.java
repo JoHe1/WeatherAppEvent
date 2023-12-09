@@ -44,15 +44,15 @@ public class OpenWeatherMapProvider implements WeatherProvider{
                 for (JsonElement jsonElement : JsonParser.parseString(response.toString()).getAsJsonObject().getAsJsonArray("list")) {
                     String dt_txt = jsonElement.getAsJsonObject().get("dt_txt").getAsString();
                     String hour = dt_txt.substring(11,13);
-                    //if (hour.equals("12")){ TODO DESCOMENTAR AL FINAL
-                    double temp = jsonElement.getAsJsonObject().get("main").getAsJsonObject().get("temp").getAsDouble();
-                    double pop = jsonElement.getAsJsonObject().get("pop").getAsDouble();
-                    double humidity = jsonElement.getAsJsonObject().get("main").getAsJsonObject().get("humidity").getAsDouble();
-                    double clouds = jsonElement.getAsJsonObject().get("clouds").getAsJsonObject().get("all").getAsDouble();
-                    double wind = jsonElement.getAsJsonObject().get("wind").getAsJsonObject().get("speed").getAsDouble();
-                    Instant instantPrediction = Instant.ofEpochSecond(jsonElement.getAsJsonObject().get("dt").getAsLong());
-                    weathers.add(new Weather(temp, pop, humidity, clouds, wind, instantPrediction, location));
-                    //}
+                    if (hour.equals("12")){
+                        double temp = jsonElement.getAsJsonObject().get("main").getAsJsonObject().get("temp").getAsDouble();
+                        double pop = jsonElement.getAsJsonObject().get("pop").getAsDouble();
+                        double humidity = jsonElement.getAsJsonObject().get("main").getAsJsonObject().get("humidity").getAsDouble();
+                        double clouds = jsonElement.getAsJsonObject().get("clouds").getAsJsonObject().get("all").getAsDouble();
+                        double wind = jsonElement.getAsJsonObject().get("wind").getAsJsonObject().get("speed").getAsDouble();
+                        Instant instantPrediction = Instant.ofEpochSecond(jsonElement.getAsJsonObject().get("dt").getAsLong());
+                        weathers.add(new Weather(temp, pop, humidity, clouds, wind, instantPrediction, location));
+                    }
                 }
             }
         } catch (IOException e) {
@@ -69,7 +69,7 @@ public class OpenWeatherMapProvider implements WeatherProvider{
                     + "lat=" + location.getLatitude()
                     + "&lon=" + location.getLongitude()
                     + "&appid=" + apikey
-                    + "&units=metric&cnt=1";
+                    + "&units=metric";
             URL obj = new URL(url);
             connection = (HttpURLConnection) obj.openConnection();
             connection.setRequestMethod("GET");

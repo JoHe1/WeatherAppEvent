@@ -54,8 +54,6 @@ public class JmsWeatherStore implements WeatherStore{
                 .createTextMessage(weatherJson);
 
         producer.send(message);
-        // TODO BORRAR AL FINAL
-        System.out.println("JCG printing@@ '" + message.getText() + "'");
         close(connection);
         }catch (JMSException e) {
             throw new JmsExceptionConection("Error sending message to JMS",e);

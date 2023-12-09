@@ -25,13 +25,11 @@ public class Main {
             periodicTask(weatherController);
         }
     private static void periodicTask(WeatherController weatherController) {
-
-            /*
         ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
         Calendar now = Calendar.getInstance();
         Calendar nextRun = Calendar.getInstance();
-        nextRun.set(Calendar.HOUR_OF_DAY, 21);
-        nextRun.set(Calendar.MINUTE, 19);
+        nextRun.set(Calendar.HOUR_OF_DAY, 17);
+        nextRun.set(Calendar.MINUTE, 11);
         nextRun.set(Calendar.SECOND, 0);
         nextRun.set(Calendar.MILLISECOND, 0);
         if (now.after(nextRun)) {
@@ -39,8 +37,6 @@ public class Main {
         }
         long initialDelay = nextRun.getTimeInMillis() - System.currentTimeMillis();
         scheduler.scheduleAtFixedRate(new Task(weatherController), initialDelay, 6 * 60 * 60 * 1000, TimeUnit.MILLISECONDS);
-        */
-        new Task(weatherController).run();
     }
 
     private static void loadStaticLocations(String file) {
