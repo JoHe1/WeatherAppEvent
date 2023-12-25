@@ -19,12 +19,9 @@ import java.time.ZoneId;
 public class WeatherCollect {
     public final String brokerURL = "tcp://localhost:61616";
     public final String topicName = "prediction.Weather";
-    public final String ss = "OpenWeatherMap";
-    public final String path;
+    private String path = "eventstore/prediction.Weather/";
+    private String ss = "";
 
-    public WeatherCollect(String path) {
-        this.path = path + "/" + ss;
-    }
 
     public void execute() {
         try{
@@ -38,6 +35,8 @@ public class WeatherCollect {
                     throw new CollectFromBrokerException("Error collecting from broker", e);
                 }
                 String dateEvent = dateEventCollect(text);
+                collectSs(text);
+                createDirectory();
                 toFile(dateEvent, text);
 
             });
@@ -48,9 +47,16 @@ public class WeatherCollect {
         }
     }
 
+    private void collectSs(String text) {
+        JsonParser parser = new JsonParser();
+        JsonObject json = parser.parse(text).getAsJsonObject();
+        String ss = json.get("ss").getAsString();
+        setSs(ss);
+    }
+
     private void toFile(String dateEvent, String text) {
         String file = dateEvent.split("-")[0] + dateEvent.split("-")[1] + dateEvent.split("-")[2] + ".events";
-        Path path = Paths.get(this.path, file);
+        Path path = Paths.get(getPath() + getSs() + "/", file);
         try{
             if (!Files.exists(path)) {
                 Files.createDirectories(path.getParent());
@@ -78,16 +84,16 @@ public class WeatherCollect {
     private MessageConsumer initialiseSubscriber() throws JMSException {
         ConnectionFactory factory = new ActiveMQConnectionFactory(brokerURL);
         Connection connection = factory.createConnection();
-        connection.setClientID("EventStoreBuilder" + ss);
+        connection.setClientID("EventStoreBuilder");
         connection.start();
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         Topic topic = session.createTopic(topicName);
-        MessageConsumer subscriber = session.createDurableSubscriber(topic, "EventStoreBuilder" + ss);
+        MessageConsumer subscriber = session.createDurableSubscriber(topic, "EventStoreBuilder");
         return subscriber;
     }
 
     public void createDirectory() {
-        Path directory = Paths.get(path);
+        Path directory = Paths.get(getPath() + getSs());
         if (!Files.exists(directory)) {
             try {
                 Files.createDirectories(directory);
@@ -95,5 +101,16 @@ public class WeatherCollect {
                 throw new CreateDirectoryException("Error creating directory: " + path, e);
             }
         }
+    }
+    public String getPath() {
+        return path;
+    }
+
+    public String getSs() {
+        return ss;
+    }
+
+    public void setSs(String ss) {
+        this.ss = ss;
     }
 }

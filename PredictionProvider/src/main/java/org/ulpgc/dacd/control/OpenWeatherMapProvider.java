@@ -19,6 +19,7 @@ import java.util.List;
 
 public class OpenWeatherMapProvider implements WeatherProvider{
     public final String apikey;
+    public final String ss = "OpenWeatherMap";
     public OpenWeatherMapProvider(String apikey) {
         this.apikey = apikey;
     }
@@ -51,7 +52,7 @@ public class OpenWeatherMapProvider implements WeatherProvider{
                         double clouds = jsonElement.getAsJsonObject().get("clouds").getAsJsonObject().get("all").getAsDouble();
                         double wind = jsonElement.getAsJsonObject().get("wind").getAsJsonObject().get("speed").getAsDouble();
                         Instant instantPrediction = Instant.ofEpochSecond(jsonElement.getAsJsonObject().get("dt").getAsLong());
-                        weathers.add(new Weather(temp, pop, humidity, clouds, wind, instantPrediction, location));
+                        weathers.add(new Weather(temp, pop, humidity, clouds, wind, instantPrediction, location, ss)); // MIRAR ESTO
                     }
                 }
             }

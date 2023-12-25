@@ -22,4 +22,5 @@ public class Location {
     public String getLongitude() {
         return longitude;
     }
+
 }

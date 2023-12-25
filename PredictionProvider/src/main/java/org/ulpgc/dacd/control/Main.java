@@ -37,7 +37,8 @@ public class Main {
         }
         long initialDelay = nextRun.getTimeInMillis() - System.currentTimeMillis();
         scheduler.scheduleAtFixedRate(new Task(weatherController), initialDelay, 6 * 60 * 60 * 1000, TimeUnit.MILLISECONDS);
-    }
+        }
+
 
     private static void loadStaticLocations(String file) {
         try (Reader reader = new FileReader(file);
